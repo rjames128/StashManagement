@@ -1,0 +1,1 @@
+﻿global using StashManagement.API.Interfaces;
