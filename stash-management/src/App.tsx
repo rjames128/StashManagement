@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { StashHeader } from './components/stashHeader'
+import { FabricItemCard } from './components/FabricItemCard'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -10,6 +11,18 @@ function App() {
   return (
     <>
       <StashHeader />
+      <FabricItemCard item={{
+        id: '1',
+        name: 'Cotton Fabric',
+        description: 'A soft and breathable cotton fabric.',
+        sourceLocation: 'Warehouse A',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        imageSrc: 'https://placehold.co/400',
+        profileId: 'user-123',
+        cut: '1 yard',
+        amount: 5
+      }} />
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
