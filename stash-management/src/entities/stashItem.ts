@@ -7,6 +7,9 @@ export interface StashItem {
   updatedAt: Date;
   imageSrc: string;
   profileId: string;
+}
+
+export interface FabricItem extends StashItem {
   cut: string;
   amount: number;
 }
