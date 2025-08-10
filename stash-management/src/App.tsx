@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { StashHeader } from './components/stashHeader'
 import { FabricItemCard } from './components/FabricItemCard'
+import { FabricItemForm } from './components/FabricItemForm'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -23,6 +24,7 @@ function App() {
         cut: '1 yard',
         amount: 5
       }} />
+      <FabricItemForm onCreate={(item) => console.log('New item created:', item)} />
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
