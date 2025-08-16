@@ -1,8 +1,20 @@
 ﻿var builder = DistributedApplication.CreateBuilder(args);
 
-builder.AddProject<Projects.StashManagement_API>("stashmanagement-api");
+var db = builder.AddPostgres("DB")
+    .AddDatabase("stash");
 
-builder.AddNpmApp("stash-management", "../stash-management")
-    .WithHttpEndpoint(targetPort: 53237);
+var aws = builder.AddContainer("AWS", "localstack/localstack", "stable").
+    WithHttpsEndpoint(name: "aws", targetPort: 4566);
+
+var bff = builder.AddProject<Projects.StashManagement_API>("stashmanagement-api")
+    .WaitFor(aws)
+    .WaitFor(db)
+    .WithReference(db)
+    .WithEnvironment("aws", aws.GetEndpoint("aws"));
+
+builder.AddNpmApp("stash-management-ui", "../stash-management")
+    .WithHttpEndpoint(targetPort: 53237)
+    .WaitFor(bff)
+    .WithReference(bff);
 
 builder.Build().Run();
