@@ -1,7 +1,27 @@
 ﻿var builder = DistributedApplication.CreateBuilder(args);
 
 var db = builder.AddPostgres("DB")
-    .AddDatabase("stash");
+    .AddDatabase("stash")
+    .WithCreationScript("""
+        CREATE DATABASE stash;
+
+        CREATE TABLE stash_item (
+        id UUID PRIMARY KEY,
+        profile_id UUID NOT NULL,
+        name TEXT NOT NULL,
+        description TEXT,
+        source_location TEXT,
+        created_at TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP NOT NULL,
+        image_src TEXT
+    );
+
+        CREATE TABLE fabric_item (
+        id UUID PRIMARY KEY REFERENCES stash_item(id),
+        cut TEXT,
+        amount NUMERIC
+    );
+    """);
 
 var aws = builder.AddContainer("AWS", "localstack/localstack", "stable").
     WithHttpsEndpoint(name: "aws", targetPort: 4566);
