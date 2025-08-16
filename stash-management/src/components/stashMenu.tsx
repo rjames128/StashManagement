@@ -24,7 +24,7 @@ export function StashMenu() {
 	};
 
 	return (
-		<div>
+		<div style={{ float: 'left' }}>
 			<IconButton
 				aria-label="menu"
 				aria-controls={openProfile ? 'stash-menu' : undefined}
