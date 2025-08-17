@@ -51,9 +51,16 @@ namespace StashManagement.API.Infrastructure
             {
                 return false;
             }
-            existingItem = item.ToDAO(profileId);
-            _context.Update(existingItem);
-            return await _context.SaveChangesAsync() > 0;
+            var updates = item.ToDAO(profileId);
+            existingItem.SourceLocation = updates.SourceLocation;
+            existingItem.Amount = updates.Amount;
+            existingItem.Cut = updates.Cut;
+            existingItem.Description = updates.Description;
+            existingItem.ImageSrc = updates.ImageSrc;
+            existingItem.Name = updates.Name;
+            existingItem.UpdatedAt = updates.UpdatedAt;
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
         }
     }
 }
