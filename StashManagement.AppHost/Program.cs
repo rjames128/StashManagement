@@ -1,10 +1,10 @@
 ﻿var builder = DistributedApplication.CreateBuilder(args);
 
-var db = builder.AddPostgres("DB")
-    .AddDatabase("stash")
-    .WithCreationScript("""
-        CREATE DATABASE stash;
+var postgres = builder.AddPostgres("DB")
+    .WithPgAdmin();
 
+var db = postgres.AddDatabase("stash", "postgres")
+    .WithCreationScript("""
         CREATE TABLE stash_item (
         id UUID PRIMARY KEY,
         profile_id UUID NOT NULL,

@@ -3,6 +3,8 @@ using StashManagement.API.Startup;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+var configuration = builder.Configuration;
+builder.Services.ConfigureServices(configuration);
 
 // Add services to the container.
 
