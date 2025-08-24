@@ -9,6 +9,7 @@
         public string SourceLocation { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public string ImageSrc { get; set; }
+        public string ImageKey { get; set; }
+        public string Bucket { get; set; }
     }
 }

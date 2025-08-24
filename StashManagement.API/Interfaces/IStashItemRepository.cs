@@ -1,4 +1,5 @@
-﻿using StashManagement.API.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using StashManagement.API.Entities;
 
 namespace StashManagement.API.Interfaces
 {
@@ -9,5 +10,6 @@ namespace StashManagement.API.Interfaces
         public Task<int> AddAsync(Guid profileId, FabricItem item);
         public Task<bool> UpdateAsync(Guid profileId, FabricItem item);
         public Task<bool> DeleteAsync(Guid id, Guid profileId);
+        public Task<bool> UploadImageAsync(Guid id, Guid profileId, IFormFile image);
     }
 }

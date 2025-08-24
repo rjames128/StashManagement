@@ -16,13 +16,12 @@ namespace StashManagement.API.Infrastructure
                 SourceLocation = item.SourceLocation,
                 CreatedAt = item.CreatedAt,
                 UpdatedAt = item.UpdatedAt,
-                ImageSrc = item.ImageSrc,
                 Cut = item.Cut,
                 Amount = item.Amount
             };
         }
 
-        public static FabricItem ToEntity(this FabricItemDAO dao)
+        public static FabricItem ToEntity(this FabricItemDAO dao, string url)
         {
             return new FabricItem
             {
@@ -32,9 +31,9 @@ namespace StashManagement.API.Infrastructure
                 SourceLocation = dao.SourceLocation,
                 CreatedAt = dao.CreatedAt,
                 UpdatedAt = dao.UpdatedAt,
-                ImageSrc = dao.ImageSrc,
                 Cut = dao.Cut,
-                Amount = dao.Amount
+                Amount = dao.Amount,
+                ImageSrc = url
             };
         }
     }

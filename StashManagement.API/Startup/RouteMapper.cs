@@ -57,6 +57,22 @@ namespace StashManagement.API.Startup
             .Produces(StatusCodes.Status404NotFound)
             .WithName("DeleteFabric")
             .WithOpenApi();
+
+            app.MapPost("/fabric/{id:guid}/image", async (Guid id, HttpRequest request, [FromServices]IStashItemRepository repository, [FromHeader] Guid profileId) =>
+            {
+                if (!request.HasFormContentType)
+                    return Results.BadRequest("Content-Type must be multipart/form-data");
+                var form = await request.ReadFormAsync();
+                var image = form.Files["image"];
+                if (image == null)
+                    return Results.BadRequest("Missing image file");
+                var success = await repository.UploadImageAsync(id, profileId, image);
+                return success ? Results.NoContent() : Results.NotFound();
+            })
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound)
+            .WithName("UploadFabricImage")
+            .WithOpenApi();
         }
     }
 }

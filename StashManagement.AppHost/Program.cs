@@ -15,7 +15,8 @@ var db = postgres.AddDatabase("stash", "postgres")
         source_location TEXT,
         created_at TIMESTAMP NOT NULL,
         updated_at TIMESTAMP NOT NULL,
-        image_src TEXT
+        image_key TEXT,
+        bucket TEXT
     );
 
         CREATE TABLE fabric_item (

@@ -27,7 +27,8 @@ namespace StashManagement.API.Infrastructure
                 entity.Property(e => e.SourceLocation).HasColumnName("source_location");
                 entity.Property(e => e.CreatedAt).HasColumnName("created_at");
                 entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
-                entity.Property(e => e.ImageSrc).HasColumnName("image_src");
+                entity.Property(e => e.ImageKey).HasColumnName("image_key");
+                entity.Property(e => e.Bucket).HasColumnName("bucket");
             });
 
             modelBuilder.Entity<FabricItemDAO>(entity =>
