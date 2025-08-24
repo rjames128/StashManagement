@@ -1,10 +1,13 @@
+using StashManagement.API.Configuration;
 using StashManagement.API.Startup;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
-var configuration = builder.Configuration;
-builder.Services.ConfigureServices(configuration);
+builder.Services.Configure<AppSettings>(builder.Configuration);
+var settings = builder.Configuration.Get<AppSettings>();
+
+builder.Services.ConfigureServices(settings);
 
 // Add services to the container.
 

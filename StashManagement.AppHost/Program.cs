@@ -56,12 +56,12 @@ var bff = builder.AddProject<Projects.StashManagement_API>("stashmanagement-api"
     .WaitFor(db)
     .WithReference(db)
     .WithEnvironment("Aws__BucketName", bucketName)
-    .WithEnvironment("Aws__UseHttp", "true")
+    .WithEnvironment("Aws__IsLocal", "true")
     .WithEnvironment("Aws__Region", "us-east-1")
-    .WithEnvironment("Aws__ServiceURL", aws.GetEndpoint("aws"))
-    .WithEnvironment("Aws__Key","key")
-    .WithEnvironment("Aws__Secret", "secret")
-    .WithEnvironment("aws", aws.GetEndpoint("aws"));
+    .WithEnvironment("Aws__LocalUrl", aws.GetEndpoint("aws"))
+    .WithEnvironment("Aws__AccessKey","key")
+    .WithEnvironment("Aws__SecretKey", "secret")
+    .WithEnvironment("Aws__LocalUrl", aws.GetEndpoint("aws"));
 
 builder.AddNpmApp("stash-management-ui", "../stash-management")
     .WithHttpEndpoint(targetPort: 53237)
