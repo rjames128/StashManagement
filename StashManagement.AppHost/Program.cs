@@ -1,4 +1,6 @@
-﻿var builder = DistributedApplication.CreateBuilder(args);
+﻿var bucketName = "stashmanagement-bucket";
+
+var builder = DistributedApplication.CreateBuilder(args);
 
 var postgres = builder.AddPostgres("DB")
     .WithPgAdmin();
@@ -24,12 +26,41 @@ var db = postgres.AddDatabase("stash", "postgres")
     """);
 
 var aws = builder.AddContainer("AWS", "localstack/localstack", "stable").
+    WithEnvironment("SERVICES", "s3").
+    WithEnvironment("AWS_REGION", "us-east-1").
+    WithEnvironment("AWS_ACCESS_KEY_ID", "key").
+    WithEnvironment("AWS_SECRET_ACCESS_KEY", "secret").
+    WithContainerFiles("/etc/localstack/init/",
+        [new ContainerDirectory
+        {
+            Name = "ready.d",
+            Entries = [
+                new ContainerFile
+                {
+                    Name = "init-aws.sh",
+                    Contents = $"""
+                    #!/bin/sh
+
+                    awslocal s3 mb s3://{bucketName}
+                    """,
+                    Mode = UnixFileMode.UserExecute | UnixFileMode.UserRead | UnixFileMode.UserWrite |
+                        UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.GroupExecute |
+                        UnixFileMode.OtherRead | UnixFileMode.OtherWrite | UnixFileMode.OtherExecute
+                }
+            ]
+        }], defaultOwner: 1000).
     WithHttpsEndpoint(name: "aws", targetPort: 4566);
 
 var bff = builder.AddProject<Projects.StashManagement_API>("stashmanagement-api")
     .WaitFor(aws)
     .WaitFor(db)
     .WithReference(db)
+    .WithEnvironment("Aws__BucketName", bucketName)
+    .WithEnvironment("Aws__UseHttp", "true")
+    .WithEnvironment("Aws__Region", "us-east-1")
+    .WithEnvironment("Aws__ServiceURL", aws.GetEndpoint("aws"))
+    .WithEnvironment("Aws__Key","key")
+    .WithEnvironment("Aws__Secret", "secret")
     .WithEnvironment("aws", aws.GetEndpoint("aws"));
 
 builder.AddNpmApp("stash-management-ui", "../stash-management")
