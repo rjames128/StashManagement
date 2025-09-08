@@ -13,6 +13,7 @@ namespace StashManagement.API.Startup
             services.AddDbContext<StashDbContext>(options =>
                 options.UseNpgsql(settings.ConnectionStrings.Stash));
             services.AddScoped<IStashItemRepository, StashItemRepository>();
+            services.AddSingleton<AppSettings>(settings);
             // Add AWS S3 client configuration
             services.AddAWSService<IAmazonS3>(new AWSOptions 
             {

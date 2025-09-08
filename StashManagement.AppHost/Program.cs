@@ -43,7 +43,7 @@ var aws = builder.AddContainer("AWS", "localstack/localstack", "stable").
                     #!/bin/sh
 
                     awslocal s3 mb s3://{bucketName}
-                    """,
+                    """.ReplaceLineEndings("\n"),
                     Mode = UnixFileMode.UserExecute | UnixFileMode.UserRead | UnixFileMode.UserWrite |
                         UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.GroupExecute |
                         UnixFileMode.OtherRead | UnixFileMode.OtherWrite | UnixFileMode.OtherExecute
